@@ -28,6 +28,7 @@ var app = app || {};
     /* OLD forEach():
     articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
     */
+
     // Brandon - refactored above line to use map
     Article.all = articleData.map(articleObject => new Article(articleObject));
   };
@@ -40,24 +41,31 @@ var app = app || {};
       })
   };
 
-  // Brandon - TODO
-  Article.numWordsAll = () => {
-    return Article.all.map(article => article.body).reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      }, 0
-    );
-  };
+  // Brandon - Updated during code review
+  // Brandon - use Regex: /\b\w+/gm
+  Article.numWordsAll = () => Article.all.map(article => article.body.match(/\b\w+/gm).length)
+    .reduce((accumulator, current) => accumulator + current);
 
-  // Brandon - TODO
+  // Brandon - Updated during code review
   Article.allAuthors = () => {
-    return Article.all.map().reduce();
+    return Article.all.map(article => article.author)
+      .reduce((names, name) => {
+        if (names.indexOf(name) === -1) names.push(name);
+        return names;
+      }, []);
   };
 
-  // Brandon - TODO
+  // Brandon - Updated during code review
   Article.numWordsByAuthor = () => {
-    return Article.allAuthors().map(author => {})
-  };
+    return Article.allAuthors().map(author => {
+      return {
+        name: author,
+        numWords: Article.all.filter(a => a.author === author)
+          .map(a => a.body.match(/\b\w+/gm).length)
+          .reduce((a, b) => a + b)
+      }
+    })
+  }
 
   Article.truncateTable = callback => {
     $.ajax({
