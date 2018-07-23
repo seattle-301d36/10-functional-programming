@@ -22,21 +22,19 @@ var app = app || {};
   Article.loadAll = articleData => {
     articleData.sort((a,b) => (new Date(b.published_on)) - (new Date(a.published_on)))
 
-    // OLD forEach():
-    articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
-
+    Article.all = articleData.map(articleObject => new Article(articleObject));
   };
 
   Article.fetchAll = callback => {
     $.get('/articles')
       .then(results => {
         Article.loadAll(results);
-        callback(app.articleView);
+        callback();
       })
   };
 
   Article.numWordsAll = () => {
-    return Article.all.map().reduce()
+    return Article.all.map(Article.all.articleData).reduce()
   };
 
   Article.allAuthors = () => {

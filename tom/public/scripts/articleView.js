@@ -131,11 +131,10 @@ var app = app || {};
     $('pre code').each((i, block) => hljs.highlightBlock(block));
   };
 
-  // const source   = document.getElementById('article-stats-template').innerHTML;
-  // const template = Handlebars.compile(source);
-
   articleView.initAdminPage = () => {  
     // REVIEW: We use .forEach() here because we are relying on the side-effects of the callback function: appending to the DOM. The callback is not required to return anything.
+    var stat   = document.getElementById('.article-stats-template').innerHTML;
+    var template = Handlebars.compile(stat);
     app.Article.numWordsByAuthor().forEach(stat => $('.author-stats').append(template(stat)));
 
     // REVIEW: Simply write the correct values to the page:
