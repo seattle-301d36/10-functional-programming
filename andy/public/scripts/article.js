@@ -17,6 +17,12 @@ Article.prototype.toHtml = function() {
 
   return template(this);
 };
+Article.prototype.toAdmin = function() {
+  var authorTemplate = Handlebars.compile($('#author-template').text());
+  this.authorName = this.author;
+  this.articleCount = this.articles;
+  return authorTemplate(this);
+};
 
 Article.loadAll = articleData => {
   articleData.sort((a,b) => (new Date(b.published_on)) - (new Date(a.published_on)))
@@ -36,11 +42,15 @@ Article.fetchAll = callback => {
 };
 
 Article.numWordsAll = () => {
-  return Article.all.map().reduce()
+  return Article.all.map(article => article.body).reduce((numWordsAll, totalWords) => { 
+    return numWordsAll + totalWords;
+  }, 0)
 };
 
 Article.allAuthors = () => {
-  return Article.all.map().reduce();
+  return Article.all.map(article => article.author).reduce((allAuthors, authorName)=>{
+    if (allAuthors.indexOf(authorName) < 0 ) allAuthors.push(authorName);
+  },[])
 };
 
 Article.numWordsByAuthor = () => {
