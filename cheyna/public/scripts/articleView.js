@@ -3,6 +3,20 @@ var app = app || {};
 
 var articleView = {};
 
+Article.prototype.toHtml = function() {
+  let template = Handlebars.compile($('#author-stats').text());
+
+  this.daysAgo = parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000);
+
+  // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
+  // Not sure? Check the docs!
+  // PUT YOUR RESPONSE HERE
+  this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
+  this.body = marked(this.body);
+
+  return template(this);
+};
+
 articleView.populateFilters = () => {
   $('article').each(function() {
     if (!$(this).hasClass('template')) {
