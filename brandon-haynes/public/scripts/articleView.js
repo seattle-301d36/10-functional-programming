@@ -134,7 +134,12 @@ var app = app || {};
   };
 
   articleView.initAdminPage = () => {
-    
+    // Call the Handlebars .compile() method when initializing the admin page. Make sure to assign the result of this method to the same variable name that is used when the author stats are appended to the DOM.
+    //TODO
+    let template = Handlebars.compile($('#author-template').text());
+    // Set up a template for each row of the Author Stats section.
+    //TODO
+
     // REVIEW: We use .forEach() here because we are relying on the side-effects of the callback function: appending to the DOM. The callback is not required to return anything.
     app.Article.numWordsByAuthor().forEach(stat => $('.author-stats').append(template(stat)));
 

@@ -10,6 +10,23 @@
     <link rel="stylesheet" href="styles/layout.css">
     <link rel="stylesheet" href="styles/modules.css">
     <link rel="icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/18607604?v=3&s=200">
+
+    <script id="article-template" type="text/x-handlebars-template">
+      <article
+        class="clearfix"
+        data-author="{{authorSlug}}"
+        data-category="{{categorySlug}}">
+        <header>
+          <!-- <h1>{{title}}</h1> -->
+          <dt>Total articles:</dt> <dd class="articles">{{articles}}</dd>
+          <dt>Total words:</dt> <dd class="words">{{words}}</dd>
+          <h2>Author Stats</h2>
+          <p><em>Details on who is writing, and how much writing they are doing...</em></p>
+          <ul class="author-stats">
+          </ul>
+        </header>
+      </article>
+    </script>
   </head>
   <body>
     <header class="clearfix">
@@ -31,12 +48,7 @@
     <main class="clearfix">
       <h1>Blog Stats</h1>
       <section id="blog-stats">
-        <dt>Total articles:</dt> <dd class="articles"></dd>
-        <dt>Total words:</dt> <dd class="words"></dd>
-        <h2>Author Stats</h2>
-        <p><em>Details on who is writing, and how much writing they are doing...</em></p>
-        <ul class="author-stats">
-        </ul>
+        <!-- Brandon - relocated the static info here into the template in the head -->
       </section>
     </main>
     <footer>
@@ -48,7 +60,9 @@
     <script src="scripts/article.js"></script>
     <script src="scripts/articleView.js"></script>
     <script>
-      Article.fetchAll();
+      //Ensure both the index page and the admin page call Article.fetchAll() in a way that properly triggers the appropriate page setup methods.
+      // For both index.html and admin.html, we'll want access to the Article.all data, but we'll have different view functions to set up for each of those pages. Complete the Article.fetchAll() method so that it invokes a specific callback after all articles are loaded.
+      app.Article.fetchAll(app.articleView.initAdminPage);
     </script>
   </body>
 </html>

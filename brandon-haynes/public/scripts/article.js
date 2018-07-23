@@ -21,13 +21,15 @@ var app = app || {};
     return template(this);
   };
 
+  //In the loadAll() method, refactor the old forEach() method to use .map() instead, since we are transforming one collection into another. Remember that we can set variables equal to the results of a function. So if we set a variable equal to the result of a .map(), it will be our transformed array. There is no need to push to anything.  
   Article.loadAll = articleData => {
     articleData.sort((a,b) => (new Date(b.published_on)) - (new Date(a.published_on)))
 
     /* OLD forEach():
     articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
     */
-
+    // Brandon - refactored above line to use map
+    Article.all = articleData.map(articleObject => new Article(articleObject));
   };
 
   Article.fetchAll = callback => {
@@ -38,14 +40,21 @@ var app = app || {};
       })
   };
 
+  // Brandon - TODO
   Article.numWordsAll = () => {
-    return Article.all.map().reduce()
+    return Article.all.map(article => article.body).reduce(
+      (accumulator, currentValue) => {
+        return accumulator + currentValue;
+      }, 0
+    );
   };
 
+  // Brandon - TODO
   Article.allAuthors = () => {
     return Article.all.map().reduce();
   };
 
+  // Brandon - TODO
   Article.numWordsByAuthor = () => {
     return Article.allAuthors().map(author => {})
   };

@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Lab 10</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lab 10</title>
     <link rel="stylesheet" href="vendor/styles/normalize.css">
     <link rel="stylesheet" href="vendor/styles/icons.css">
     <link rel="stylesheet" href="styles/base.css">
@@ -13,7 +13,10 @@
     <link rel="icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/18607604?v=3&s=200">
 
     <script id="article-template" type="text/x-handlebars-template">
-      <article class="clearfix" data-author="{{author}}" data-category="{{category}}">
+      <article 
+        class="clearfix" 
+        data-author="{{author}}" 
+        data-category="{{category}}">
         <header>
           <h1>{{title}}</h1>
           <div>
@@ -86,6 +89,8 @@
     <script src="scripts/article.js"></script>
     <script src="scripts/articleView.js"></script>
     <script>
+      //Ensure both the index page and the admin page call Article.fetchAll() in a way that properly triggers the appropriate page setup methods.
+      // For both index.html and admin.html, we'll want access to the Article.all data, but we'll have different view functions to set up for each of those pages. Complete the Article.fetchAll() method so that it invokes a specific callback after all articles are loaded.
       app.Article.fetchAll(app.articleView.initIndexPage);
     </script>
   </body>
