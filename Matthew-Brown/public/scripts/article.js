@@ -45,7 +45,7 @@ var app = app || {};
   };
 
   Article.numWordsByAuthor = () => {
-    return Article.allAuthors().map(author => {})
+    return Article.allAuthors().map(author => { })
   };
 
   Article.truncateTable = callback => {
