@@ -1,22 +1,38 @@
 'use strict';
-// REVIEW: Check out all of our new arrow function syntax!
 
+// Setup Node
 const pg = require('pg');
 const fs = require('fs');
 const express = require('express');
 const PORT = process.env.PORT || 3000;
 const app = express();
-const conString = '';
+
+// Setup Database Connection
+let conString = '';
+if (process.platform === 'win32') {
+  //windows
+  conString = 'postgres://localhost:5432/kilovolt';
+} else if (process.platform === 'darwin') {
+  //mac
+  conString = 'postgres://localhost:5432';
+} else if (process.platform === 'linux') {
+  //linux
+  conString = 'postgres://localhost:5432';
+} else {
+  console.log('Unsupported OS for database connectivity. Please add variable.');
+}
 const client = new pg.Client(conString);
 client.connect();
 client.on('error', err => {
   console.error(err);
 });
 
+// Setup Express
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static('./public'));
 
+// Setup Routes
 app.get('/new-article', (request, response) => response.sendFile('new.html', {root: './public'}));
 app.get('/admin', (request, response) => response.sendFile('admin.html', {root: './public'}));
 app.get('/articles', (request, response) => {
@@ -33,6 +49,7 @@ app.get('/articles', (request, response) => {
 app.post('/articles', (request, response) => {
   let SQL = 'INSERT INTO authors(author, author_url) VALUES($1, $2) ON CONFLICT DO NOTHING';
   let values = [request.body.author, request.body.author_url];
+
   client.query( SQL, values,
     function(err) {
       if (err) console.error(err)
