@@ -23,6 +23,7 @@ Article.loadAll = articleData => {
 
   // Old forEach loop that creates articles from raw data
   // articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
+  Article.all = articleData.map(article => new Article(article))
 
 };
 
@@ -35,18 +36,19 @@ Article.fetchAll = callback => {
 };
 
 Article.numWordsAll = () => {
-  return Article.all.map(x => x.split(" ")).reduce((accumulator, words) => accumulator += words);
+  return Article.all.map(article => article.body).reduce((accumulator, totalWords) => {accumulator += totalWords.split(" ").length}, 0);
 };
 
 Article.allAuthors = () => {
-  return Article.all.map(x => x.author).reduce((accu, auths) => accu += auths);
+  return Article.all.map(article => article.author)
+  .reduce((totalAuthors, authorName) => { if (totalAuthors.indexOf(authorName) < 0) totalAuthors.push(authorName);
+  return totalAuthors;
+}, [] )
 };
 
 Article.numWordsByAuthor = () => {
   return Article.allAuthors().map(author => {
-    author.numWordsAll();
-  })
-};
+  });}
 
 Article.truncateTable = callback => {
   $.ajax({
