@@ -36,7 +36,8 @@ Article.fetchAll = callback => {
 };
 
 Article.numWordsAll = () => {
-  return Article.all.map(article => article.body).reduce((accumulator, totalWords) => {accumulator += totalWords.split(" ").length}, 0);
+  return Article.all.map(article => article.body.match(/\b\w+/g)).reduce((accumulator, totalWords) => {accumulator += totalWords.length;
+  return accumulator}, 0);
 };
 
 Article.allAuthors = () => {
@@ -48,8 +49,14 @@ Article.allAuthors = () => {
 
 Article.numWordsByAuthor = () => {
   return Article.allAuthors().map(author => {
-  });}
-
+    return{
+      name: author,
+      numWords: Article.all.filter(a => a.author === author).map(article => article.body.match(/\b\w+/g)).reduce((accumulator, totalWords) => {accumulator += totalWords;
+      return accumulator.length})
+    }
+  }
+  )
+}
 Article.truncateTable = callback => {
   $.ajax({
     url: '/articles',
